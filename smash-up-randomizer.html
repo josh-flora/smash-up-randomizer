@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Smash Up Randomizer</title>
+  
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+    * {
+      cursor: default;
+      -webkit-user-select: none;
+    }
+    body {
+      
+    }
+    
+    body div.container-fluid button {
+      font-size: 200%;
+      font-weight: bold;
+    }
+    
+    *:not(span) {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .container-fluid {
+      border: 2px solid #2e6da4;
+      border-radius: 15px;
+      
+      margin: 15px;
+      padding: 15px;
+    }
+    
+    .player-list {
+      padding-right: 30px;
+    }
+    .deck-list {
+      border: 2px solid #2e6da4;
+      border-radius: 15px;
+      
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+    .deck-list > .col-xs-12 + .col-xs-12 {
+      margin-top: 5px;
+    }
+  </style>
+  
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    var taken = {};
+    
+    $(document).ready(function() {
+      $.each(FactionsBySet, function(set, factions) {
+        $.each(factions, function(f, faction) {
+          taken[faction] = false;
+        });
+      });
+      
+      $('.col-xs-3 > button').on('click', addPlayer);
+      for (var p=0; p < 4; p++) {
+        addPlayer();
+      }
+    });
+    
+    function addPlayer() {
+      var playerList = $('.player-list:first');
+      var playerDiv = $('.deck-list.hidden').clone().removeClass('hidden');
+      playerList.append(playerDiv);
+      
+      playerDiv.find('button').on('click', function(event) {
+        var mulligan = $(this).closest('[data-mulligan]');
+        var available = [];
+        
+        $('input[type="checkbox"]:checked').each(function(c, check) {
+          $.each(FactionsBySet[$(check).parent().text()], function(f, faction) {
+            if (!taken[faction]) {
+              available.push(faction);
+            }
+          });
+        });
+        
+        var f = getRandomInt(0, available.length-1);
+        var faction = available[f];
+        if ($(this).text().indexOf('Faction') === -1) {
+          $(this).addClass('disabled').off('click');
+          
+          mulligan.find('button.btn-info').addClass('disabled').off('click');
+          mulligan.attr('data-mulligan', 'true');
+          
+          taken[$(this).text()] = false;
+        }
+        
+        var state = $(this).hasClass('btn-primary');
+        $(this).text(faction).removeClass('btn-primary')
+          .toggleClass('btn-info', state)
+          .toggleClass('btn-warning', !state)
+          .blur();
+        
+        if (mulligan.attr('data-mulligan') === 'true') {
+          $(this).addClass('disabled');
+        }
+        
+        taken[faction] = true;
+        
+        if (available.length === 1) {
+          $('button').addClass('disabled').off('click');
+        }
+      });
+    }
+    
+    function getRandomInt(min, max) {       
+      var byteArray = new Uint8Array(1);
+      window.crypto.getRandomValues(byteArray);
+
+      var range = max - min + 1;
+      var max_range = 256;
+      if (byteArray[0] >= Math.floor(max_range / range) * range) {
+        return getRandomInt(min, max);
+      } else {
+        return min + (byteArray[0] % range);
+      }
+    }
+    
+    var FactionsBySet = {
+      "Core Set": [
+        "Aliens",
+        "Dinosaurs",
+        "Ninjas",
+        "Pirates",
+        "Robots",
+        "Tricksters",
+        "Wizards",
+        "Zombies"
+      ],
+      "Awesome Level 9000": [
+        "Bear Cavalry",
+        "Ghosts",
+        "Killer Plants",
+        "Steampunks"
+      ],
+      "The Obligatory Cthulhu Set": [
+        "Elder Things",
+        "Innsmouth",
+        "Minions of Cthulhu",
+        "Miskatonic University"
+      ],
+      "Science Fiction Double Feature": [
+        "Cyborg Apes",
+        "Shapeshifters",
+        "Super Spies",
+        "Time Travelers"
+      ],
+      "Monster Smash": [
+        "Giant Ants",
+        "Mad Scientists",
+        "Vampires",
+        "Werewolves"
+      ],
+      "The Big Geeky Box": [
+        "Geeks"
+      ],
+      "Pretty Pretty Smash Up": [
+        "Fairies",
+        "Kitty Cats",
+        "Mythic Horses",
+        "Princesses"
+      ]
+    };
+  </script>
+</head>
+<body>
+  <div id="mainArea" class="container-fluid">
+    <div class="row">
+      <div class="col-xs-3">
+        <button type="button" class="btn btn-primary btn-block">Add Player</button>
+        
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="checkbox">
+              <label><input type="checkbox" checked disabled><span>Core Set</span></label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" checked><span>Awesome Level 9000</span></label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" checked><span>The Obligatory Cthulhu Set</span></label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" checked><span>Science Fiction Double Feature</span></label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" checked><span>Monster Smash</span></label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox"><span>The Big Geeky Box</span></label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" checked><span>Pretty Pretty Smash Up</span></label>
+            </div>
+          </div> 
+        </div>
+      </div>
+      
+      <div class="col-xs-9 player-list">
+        <div class="row deck-list hidden" data-mulligan="false">
+          <div class="col-xs-6">
+            <button type="button" class="btn btn-primary btn-block">Faction</button>
+          </div>
+          <div class="col-xs-6">
+            <button type="button" class="btn btn-primary btn-block">Faction</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
