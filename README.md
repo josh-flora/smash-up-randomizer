@@ -9,49 +9,17 @@ The game starts with each player choosing two factions: but among my circle that
 It was a decent way to play around with Boostrap.
 
 ## To Do
-- Remove the external dependencies: Bootstrap and jQuery are nice, but more than this needs
-- Add the newer expansions
+- Add descriptions for factions
+- Add faction images/colors to help locate selected decks
 
 ## Included Decks
-- Core Set 
-  - Aliens
-  - Dinosaurs
-  - Ninjas
-  - Pirates
-  - Robots
-  - Tricksters
-  - Wizards
-  - Zombies
-
-- Awesome Level 9000 
-  - Bear Cavalry
-  - Ghosts
-  - Killer Plants
-  - Steampunks
-
-- The Obligatory Cthulhu Set 
-  - Elder Things
-  - Innsmouth
-  - Minions of Cthulhu
-  - Miskatonic University
-
-- Science Fiction Double Feature 
-  - Cyborg Apes
-  - Shapeshifters
-  - Super Spies
-  - Time Travelers
-
-- Monster Smash 
-  - Giant Ants
-  - Mad Scientists
-  - Vampires
-  - Werewolves
-
-- The Big Geeky Box 
-  - Geeks
-
-- Pretty Pretty Smash Up 
-  - Fairies
-  - Kitty Cats
-  - Mythic Horses
-  - Princesses
+- Core Set
+- Awesome Level 9000
+- The Obligatory Cthulhu Set
+- Science Fiction Double Feature
+- Monster Smash
+- The Big Geeky Box
+- Pretty Pretty Smash Up
+- Munchkin
+- It's Your Fault
+- Cease and Desist
